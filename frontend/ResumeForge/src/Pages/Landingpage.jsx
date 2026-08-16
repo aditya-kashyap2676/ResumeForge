@@ -3,10 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import Reuse from './Reuse';
 
 const Landingpage = () => {
-  const navigate = useNavigate();
-  const [openAuthmodal, setOpenAuthmodal] = useState(false)
-  const [currentpage, setCurrentpage] = useState("Login")
-  const handle = () => { }
+  const [openAuthmodal, setOpenAuthmodal] = useState(false);
   return (
     <div className='w-full min-h-full bg-white'>
       <div className='px-4 py-6'>
