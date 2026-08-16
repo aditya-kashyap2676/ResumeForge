@@ -10,7 +10,7 @@ const Landingpage = () => {
     <div className="w-full min-h-screen bg-white overflow-hidden">
       <div className="px-4 py-6">
         <Header setOpenAuthmodal={setOpenAuthmodal}/>
-        <Hero setOpenAuthmodal={setOpenAuthmodal}/>
+        <Hero setOpenAuthmodal={setOpenAuthmodal}/>helloworld
         <Features />
         <Footer />
       </div>
