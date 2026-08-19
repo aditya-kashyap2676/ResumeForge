@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import {useNavigate} from "react-router-dom"
 import Input from '../../components/Inputs/Input'
 import { validateEmail } from '../../Utils/helper'
-const Login = () => {
+const Login = ({setCurrentpage}) => {
   const [email,setEmail] = useState("")
   const [password,setPassword] = useState("")
   const [error,setError] = useState(null)
