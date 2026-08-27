@@ -6,7 +6,7 @@ import dns from "dns";
 import authRoutes from "./routes/authRoutes.js";
 import path from "path";
 import { fileURLToPath } from "url";
-// import resumeRoutes from "./routes/resumeRoutes.js"
+import resumeRoutes from "./routes/resumeRoutes.js"
 dns.setServers(["8.8.8.8", "8.8.4.4"]);
 
 dotenv.config();
@@ -31,7 +31,7 @@ app.use(express.json());
 
 // Routes
 app.use("/api/auth", authRoutes);
-// app.use("/api/resume", resumeRoutes);
+app.use("/api/resume", resumeRoutes);
 
 // Server uploads Folder
 app.use("/uploads", express.static(path.join(__dirname, "uploads"), {
