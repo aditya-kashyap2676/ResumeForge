@@ -8,7 +8,7 @@ const axiosInstance = axios.create({
         Accept: "application/json"
     },
 })
-//Request Intercepter
+//Request Intercepter 
 axiosInstance.interceptors.request.use(
     (config) => {
         const accessToken = localStorage.getItem("token")
