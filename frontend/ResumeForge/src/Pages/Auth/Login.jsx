@@ -67,15 +67,12 @@ const Login = ({ setCurrentpage }) => {
     }
 
   } catch (error) {
-    console.error("7. LOGIN ERROR:", error);
-    console.error("ERROR RESPONSE:", error.response?.data);
-
-    setError(
-      error.response?.data?.message ||
-      error.message ||
-      "Something went wrong. Please try again."
-    );
+  if (error.response && error.response.data.message) {
+    setError(error.response.data.message);
+  } else {
+    setError("Something went wrong. Please try again.");
   }
+}
 };
 
   return (
