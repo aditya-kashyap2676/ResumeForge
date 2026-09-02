@@ -1,7 +1,10 @@
-import React from "react";
+import React, { useContext } from "react";
 import { motion } from "framer-motion";
+import ProfileInfoCard from "../Cards/ProfileInfoCard";
+import { UserContext } from "../../context/useContext";
 
 const Header = ({ setOpenAuthmodal }) => {
+  const {user} = useContext(UserContext)
   return (
     <motion.header
       initial={{ opacity: 0, y: -30 }}
@@ -10,12 +13,12 @@ const Header = ({ setOpenAuthmodal }) => {
       className="flex justify-between px-10 items-center mb-16">
       <motion.div whileHover={{ scale: 1.05 }} className="text-2xl font-extrabold cursor-pointer">
         ResumeForge</motion.div>
-      <motion.button
+      {user ? <ProfileInfoCard/> :<motion.button
         whileHover={{ scale: 1.05, y: -2 }}
         whileTap={{ scale: 0.95 }}
         className="bg-purple-100 font-semibold text-black px-7 py-3 rounded-lg hover:bg-gray-800 hover:text-white transition-colors cursor-pointer"
         onClick={() => setOpenAuthmodal(true)}>
-        Login / Signup</motion.button>
+        Login / Signup</motion.button>}
     </motion.header>
   );
 };
