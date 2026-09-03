@@ -1,32 +1,60 @@
 import multer from "multer";
 import path from "path";
+import fs from "fs";
+import { fileURLToPath } from "url";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+const uploadDir = path.join(__dirname, "../uploads");
+
+if (!fs.existsSync(uploadDir)) {
+  fs.mkdirSync(uploadDir, { recursive: true });
+}
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, "uploads/");
+    cb(null, uploadDir);
   },
 
   filename: (req, file, cb) => {
-    const uniqueName =
-      Date.now() + "-" + Math.round(Math.random() * 1e9);
+    const extension = path.extname(file.originalname).toLowerCase();
+    const fileName = `${Date.now()}-${Math.round(
+      Math.random() * 1e9
+    )}${extension}`;
 
-    cb(null, uniqueName + path.extname(file.originalname));
+    cb(null, fileName);
   },
 });
 
 const fileFilter = (req, file, cb) => {
-  const allowedTypes = [
-    "image/jpeg",
-    "image/jpg",
-    "image/png",
-    "image/webp",
+  const allowedExtensions = [
+    ".jpeg",
+    ".jpg",
+    ".png",
+    ".webp",
   ];
 
-  if (allowedTypes.includes(file.mimetype)) {
-    cb(null, true);
-  } else {
-    cb(new Error("Only JPEG, JPG, PNG and WEBP images are allowed"), false);
+  const extension = path
+    .extname(file.originalname)
+    .toLowerCase();
+
+  console.log("File received:", {
+    name: file.originalname,
+    mimeType: file.mimetype,
+    extension,
+  });
+
+  if (allowedExtensions.includes(extension)) {
+    return cb(null, true);
   }
+
+  return cb(
+    new Error(
+      "Only JPEG, JPG, PNG and WEBP images are allowed"
+    ),
+    false
+  );
 };
 
 const upload = multer({
