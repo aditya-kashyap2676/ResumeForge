@@ -7,6 +7,8 @@ import DashboardLayout from "../../components/layouts/DashboardLayout";
 // import ResumeSummaryCard from "../../components/Cards/ResumeSummaryCard";
 import moment from 'moment'
 import ResumeSummaryCard from "../../components/Cards/ResumeSummaryCard ";
+import CreateResumeForm from "./CreateResumeForm";
+import Modal from "../../components/Modals/Modal";
 const Dashboard = () => {
   const navigate = useNavigate();
 
@@ -53,16 +55,23 @@ const Dashboard = () => {
             lastUpdated={
               resume.updatedAt
                 ? new Date(resume.updatedAt).toLocaleDateString("en-GB", {
-                    day: "2-digit",
-                    month: "short",
-                    year: "numeric",
-                  })
+                  day: "2-digit",
+                  month: "short",
+                  year: "numeric",
+                })
                 : ""
             }
             onSelect={() => navigate(`/resume/${resume._id}`)}
           />
         ))}
       </div>
+      <Modal isopen={openCreateModal}
+        onclose={() => {
+          setOpenCreateModal(false)
+        }} hideheader>
+        <div><CreateResumeForm /></div>
+      </Modal>
+
     </DashboardLayout>
   );
 };
