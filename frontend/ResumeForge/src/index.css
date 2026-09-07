@@ -21,8 +21,13 @@
 
 @layer components {
   .btn-primary {
-    @apply w-full cursor-pointer rounded-md bg-black px-4 py-3
-    text-xs font-medium text-white transition-colors duration-200
-    hover:bg-gray-800;
+    @apply w-full cursor-pointer rounded-md bg-black px-4 py-3 text-xs font-medium text-white transition-colors duration-200 hover:bg-gray-800;
   }
+
+  .btn-small-light {
+    @apply flex items-center gap-1.5 text-[12px] font-medium text-purple-600 bg-purple-50 hover:bg-purple-100 border border-purple-100 rounded-md px-3 py-1.5 cursor-pointer;
+  }
+  .btn-small {
+  @apply flex items-center gap-2 text-[13px] font-medium text-white bg-gradient-to-r from-purple-500 to-purple-700 hover:from-purple-600 hover:to-purple-800 rounded px-3 py-1.5 cursor-pointer;
+}
 }
