@@ -18,6 +18,8 @@ import { API_PATHS } from "../../utils/apipaths";
 import Stepprogress from "../../components/Stepprogress";
 import ProfileInfoForm from "./Forms/ProfileInfoForm";
 import ContactInfoForm from "./Forms/ContactInfoForm";
+import WorkExperienceForm from "./Forms/WorkExperienceForm";
+import { pre } from "framer-motion/client";
 
 const EditResume = () => {
   const { resumeId } = useParams();
@@ -29,7 +31,7 @@ const EditResume = () => {
   const [baseWidth, setBaseWidth] = useState(800);
   const [openThemeSelector, setOpenThemeSelector] = useState(false);
   const [openPreviewModal, setOpenPreviewModal] = useState(false);
-  const [currentPage, setCurrentPage] = useState("contact-info");
+  const [currentPage, setCurrentPage] = useState("work-experience");
   const [progress, setProgress] = useState(0);
 
   const [resumeData, setResumeData] = useState({
@@ -143,6 +145,16 @@ const EditResume = () => {
             }}
             />
           )
+          case "work-experience":
+            return(
+              <WorkExperienceForm
+              workExperience={resumeData?.workExperience}
+              updateArrayItems={(index,key,value)=>{
+                updateArrayItems("workExperience",index,key,value)
+              }}
+              addArrayItem={(newItem)=>addArrayItem("workExperience",newItem)}
+              removeArrayItem={(index)=>removeArrayItem("workExperience", index)}/>
+            )
         default:
           return null
     }
@@ -160,10 +172,28 @@ const EditResume = () => {
   };
 
   //Update array items (like workExperience[0], skills[1], etc.)
-  const updateArrayItems = (section, index, key, value) => {};
+  const updateArrayItems = (section, index, key, value) => {
+    setResumeData((prev)=>{
+      const updateArray = [...prev[section]]
+      if(key === value){
+        updateArray[index] = value //for simple string like in "interests"
+      } else{
+        updateArray[index]={...updateArray[index],[key]:value}
+      }
+      return{
+        ...prev,[section]:updateArray
+      }
+    })
+  };
 
   //Add items to array
-  const addArrayItem = (section, newItem) => {};
+  const addArrayItem = (section, newItem) => {
+    setResumeData((prev)=>{
+      const updateArray = [...prev[section]]
+      updateArray.splice(index,1)
+      return{...prev,[section]:updateArray}
+    })
+  };
 
   //Remove Item from an Array
   const removeArrayItem = (section, index) => {};

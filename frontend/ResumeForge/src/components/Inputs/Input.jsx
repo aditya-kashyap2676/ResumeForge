@@ -7,11 +7,11 @@ const Input = ({ value, onChange, label, placeholder, type }) => {
             <div className='input-box'>
                 <input type={type === "password" ? (showpassword ? "text" : "password") : type}
                     placeholder={placeholder}
-                    className="w-full bg-gray-100 p-2 rounded-lg"
-                    value={value}
+                    className="w-full px-3 py-3 border border-gray-300 rounded-lg outline-none focus:border-purple-400"
+                     value={value}
                     onChange={(e) => onChange(e)}
                 />
-           </div>
+            </div>
         </div>
     )
 }
