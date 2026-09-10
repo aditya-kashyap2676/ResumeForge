@@ -19,6 +19,7 @@ import Stepprogress from "../../components/Stepprogress";
 import ProfileInfoForm from "./Forms/ProfileInfoForm";
 import ContactInfoForm from "./Forms/ContactInfoForm";
 import WorkExperienceForm from "./Forms/WorkExperienceForm";
+import EducationDetailForm from "./Forms/EducationDetailForm";
 import { pre } from "framer-motion/client";
 
 const EditResume = () => {
@@ -31,7 +32,7 @@ const EditResume = () => {
   const [baseWidth, setBaseWidth] = useState(800);
   const [openThemeSelector, setOpenThemeSelector] = useState(false);
   const [openPreviewModal, setOpenPreviewModal] = useState(false);
-  const [currentPage, setCurrentPage] = useState("work-experience");
+  const [currentPage, setCurrentPage] = useState("education-form");
   const [progress, setProgress] = useState(0);
 
   const [resumeData, setResumeData] = useState({
@@ -155,6 +156,16 @@ const EditResume = () => {
               addArrayItem={(newItem)=>addArrayItem("workExperience",newItem)}
               removeArrayItem={(index)=>removeArrayItem("workExperience", index)}/>
             )
+            case "education-form":
+              return(
+               <EducationDetailForm
+               educationInfo={resumeData?.education}
+               updateArrayItems={(index,key,value)=>{
+                updateArrayItems("education",index,key,value)
+               }}
+               addArrayItem={(newItem)=>addArrayItem("education", newItem)}
+               removeArrayItem={(index)=>{removeArrayItem("education",index)}}/> 
+              )
         default:
           return null
     }
