@@ -21,6 +21,7 @@ import ContactInfoForm from "./Forms/ContactInfoForm";
 import WorkExperienceForm from "./Forms/WorkExperienceForm";
 import EducationDetailForm from "./Forms/EducationDetailForm";
 import { pre } from "framer-motion/client";
+import SkillsInfoForm from "./Forms/SkillsInfoForm";
 
 const EditResume = () => {
   const { resumeId } = useParams();
@@ -32,7 +33,7 @@ const EditResume = () => {
   const [baseWidth, setBaseWidth] = useState(800);
   const [openThemeSelector, setOpenThemeSelector] = useState(false);
   const [openPreviewModal, setOpenPreviewModal] = useState(false);
-  const [currentPage, setCurrentPage] = useState("education-form");
+  const [currentPage, setCurrentPage] = useState("skills");
   const [progress, setProgress] = useState(0);
 
   const [resumeData, setResumeData] = useState({
@@ -118,96 +119,116 @@ const EditResume = () => {
   const [isLoading, setIsLoading] = useState(false);
 
   //Validate Inputs
-  const validateAndNext = (e) => {};
+  const validateAndNext = (e) => { };
 
   //function to navigate to the next page
-  const goToNextStep = () => {};
+  const goToNextStep = () => { };
 
   //function go to navigate to the previous page
-  const goBack = () => {};
+  const goBack = () => { };
 
   const renderForm = () => {
-    switch(currentPage){
+    switch (currentPage) {
       case "profile-info":
-        return(
-          <ProfileInfoForm 
-          profileData={resumeData?.profileInfo}
-          updateSection={(key,value)=>[
-            updateSection("profileInfo",key,value)
-          ]}
-          onNext={validateAndNext}/>
+        return (
+          <ProfileInfoForm
+            profileData={resumeData?.profileInfo}
+            updateSection={(key, value) => [
+              updateSection("profileInfo", key, value)
+            ]}
+            onNext={validateAndNext} />
         )
-        case "contact-info":
-          return(
-            <ContactInfoForm
+      case "contact-info":
+        return (
+          <ContactInfoForm
             contactInfo={resumeData?.contactInfo}
-            updateSection={(key,value)=>{
-              updateSection("contactInfo",key,value)
+            updateSection={(key, value) => {
+              updateSection("contactInfo", key, value)
             }}
-            />
-          )
-          case "work-experience":
-            return(
-              <WorkExperienceForm
-              workExperience={resumeData?.workExperience}
-              updateArrayItems={(index,key,value)=>{
-                updateArrayItems("workExperience",index,key,value)
-              }}
-              addArrayItem={(newItem)=>addArrayItem("workExperience",newItem)}
-              removeArrayItem={(index)=>removeArrayItem("workExperience", index)}/>
-            )
-            case "education-form":
-              return(
-               <EducationDetailForm
-               educationInfo={resumeData?.education}
-               updateArrayItems={(index,key,value)=>{
-                updateArrayItems("education",index,key,value)
-               }}
-               addArrayItem={(newItem)=>addArrayItem("education", newItem)}
-               removeArrayItem={(index)=>{removeArrayItem("education",index)}}/> 
-              )
-        default:
-          return null
+          />
+        )
+      case "work-experience":
+        return (
+          <WorkExperienceForm
+            workExperience={resumeData?.workExperience}
+            updateArrayItems={(index, key, value) => {
+              updateArrayItems("workExperience", index, key, value)
+            }}
+            addArrayItem={(newItem) => addArrayItem("workExperience", newItem)}
+            removeArrayItem={(index) => removeArrayItem("workExperience", index)} />
+        )
+      case "education-form":
+        return (
+          <EducationDetailForm
+            educationInfo={resumeData?.education}
+            updateArrayItems={(index, key, value) => {
+              updateArrayItems("education", index, key, value)
+            }}
+            addArrayItem={(newItem) => addArrayItem("education", newItem)}
+            removeArrayItem={(index) => { removeArrayItem("education", index) }} />
+        )
+      case "skills":
+        return (
+          <SkillsInfoForm
+            skillsInfo={resumeData?.skills || []}
+            updateArrayItems={(index, key, value) => {
+              updateArrayItems("skills", index, key, value)
+            }}
+            addArrayItem={(newItem) => {
+              addArrayItem("skills", newItem)
+            }}
+            removeArrayItem={(index) => {
+              removeArrayItem("skills", index)
+            }}
+          />
+        )
+      default:
+        return null
     }
   };
 
   //update simple object (like profileInfo , contactInfo , etc.)
   const updateSection = (section, key, value) => {
-    setResumeData((prev)=>({
+    setResumeData((prev) => ({
       ...prev,
-      [section]:{
+      [section]: {
         ...prev[section],
         [key]: value
       }
     }))
   };
 
-  //Update array items (like workExperience[0], skills[1], etc.)
-  const updateArrayItems = (section, index, key, value) => {
-    setResumeData((prev)=>{
-      const updateArray = [...prev[section]]
-      if(key === value){
-        updateArray[index] = value //for simple string like in "interests"
-      } else{
-        updateArray[index]={...updateArray[index],[key]:value}
-      }
-      return{
-        ...prev,[section]:updateArray
-      }
-    })
-  };
+//Update array items (like workExperience[0], skills[1], etc.)
+const updateArrayItems=(section,index,key,value)=>{
+  setResumeData((prev)=>{
+    const updateArray=[...(prev[section] || [])]
+    if(typeof updateArray[index]==="object" && updateArray[index]!==null){
+      updateArray[index]={...updateArray[index],[key]:value}
+    }else{
+      updateArray[index]=value
+    }
+    return{
+      ...prev,
+      [section]:updateArray
+    }
+  })
+}
 
-  //Add items to array
-  const addArrayItem = (section, newItem) => {
-    setResumeData((prev)=>{
-      const updateArray = [...prev[section]]
-      updateArray.splice(index,1)
-      return{...prev,[section]:updateArray}
-    })
-  };
+//Add items to array
+const addArrayItem=(section,newItem)=>{
+  setResumeData((prev)=>({
+    ...prev,
+    [section]:[...(prev[section] || []),newItem]
+  }))
+}
 
-  //Remove Item from an Array
-  const removeArrayItem = (section, index) => {};
+//Remove item from an array
+const removeArrayItem=(section,index)=>{
+  setResumeData((prev)=>({
+    ...prev,
+    [section]:(prev[section] || []).filter((_,itemIndex)=>itemIndex!==index)
+  }))
+}
 
   //fetch Resume By ID
   const FetchResumeById = async () => {
@@ -249,15 +270,15 @@ const EditResume = () => {
   };
 
   //update Thumbnail and resume profile Img
-  const uploadResumeImages = async () => {};
+  const uploadResumeImages = async () => { };
 
   const updateResumeDetails = async (
     thumbnailLink,
     profilePreviewUrl
-  ) => {};
+  ) => { };
 
   //Delete Resume
-  const handleDeleteResume = () => {};
+  const handleDeleteResume = () => { };
 
   //Download Resume
   const reactToPrintfn = useReactToPrint({
@@ -265,7 +286,7 @@ const EditResume = () => {
   });
 
   //function to update base width
-  const updateBaseWidth = () => {};
+  const updateBaseWidth = () => { };
 
   useEffect(() => {
     updateBaseWidth();
@@ -329,7 +350,7 @@ const EditResume = () => {
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
           <div className="bg-white rounded-lg border border-purple-100 overflow-hidden">
-            <Stepprogress progress={0}/>
+            <Stepprogress progress={0} />
             {renderForm()}
 
             <div className="mx-5">
