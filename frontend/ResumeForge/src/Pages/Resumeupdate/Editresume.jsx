@@ -20,9 +20,9 @@ import ProfileInfoForm from "./Forms/ProfileInfoForm";
 import ContactInfoForm from "./Forms/ContactInfoForm";
 import WorkExperienceForm from "./Forms/WorkExperienceForm";
 import EducationDetailForm from "./Forms/EducationDetailForm";
-import { pre } from "framer-motion/client";
 import SkillsInfoForm from "./Forms/SkillsInfoForm";
 import ProjectDetialForm from "./Forms/ProjectDetialForm";
+import CertificationFrom from "./Forms/CertificationFrom";
 
 const EditResume = () => {
   const { resumeId } = useParams();
@@ -34,7 +34,7 @@ const EditResume = () => {
   const [baseWidth, setBaseWidth] = useState(800);
   const [openThemeSelector, setOpenThemeSelector] = useState(false);
   const [openPreviewModal, setOpenPreviewModal] = useState(false);
-  const [currentPage, setCurrentPage] = useState("projects");
+  const [currentPage, setCurrentPage] = useState("certification");
   const [progress, setProgress] = useState(0);
 
   const [resumeData, setResumeData] = useState({
@@ -120,13 +120,13 @@ const EditResume = () => {
   const [isLoading, setIsLoading] = useState(false);
 
   //Validate Inputs
-  const validateAndNext = (e) => { };
+  const validateAndNext = (e) => {};
 
   //function to navigate to the next page
-  const goToNextStep = () => { };
+  const goToNextStep = () => {};
 
   //function go to navigate to the previous page
-  const goBack = () => { };
+  const goBack = () => {};
 
   const renderForm = () => {
     switch (currentPage) {
@@ -134,10 +134,10 @@ const EditResume = () => {
         return (
           <ProfileInfoForm
             profileData={resumeData?.profileInfo}
-            updateSection={(key, value) => [
+            updateSection={(key, value) => {
               updateSection("profileInfo", key, value)
-            ]}
-            onNext={validateAndNext} />
+            }}
+            onNext={validateAndNext}/>
         )
       case "contact-info":
         return (
@@ -156,7 +156,7 @@ const EditResume = () => {
               updateArrayItems("workExperience", index, key, value)
             }}
             addArrayItem={(newItem) => addArrayItem("workExperience", newItem)}
-            removeArrayItem={(index) => removeArrayItem("workExperience", index)} />
+            removeArrayItem={(index) => removeArrayItem("workExperience", index)}/>
         )
       case "education-form":
         return (
@@ -166,7 +166,9 @@ const EditResume = () => {
               updateArrayItems("education", index, key, value)
             }}
             addArrayItem={(newItem) => addArrayItem("education", newItem)}
-            removeArrayItem={(index) => { removeArrayItem("education", index) }} />
+            removeArrayItem={(index) => {
+              removeArrayItem("education", index)
+            }}/>
         )
       case "skills":
         return (
@@ -183,16 +185,26 @@ const EditResume = () => {
             }}
           />
         )
-        case "projects":
-          return(
-            <ProjectDetialForm
-            projectInfo={resumeData?.projects}
-            updateArrayItems={(index,key,value)=>{
-              updateArrayItems("projects", index,key,value)
-            }}
-            addArrayItem={(newItem)=>{addArrayItem("projects", newItem)}}
-            removeArrayItem={(index)=>{removeArrayItem("projects",index)}}/>
-          )
+      case "projects":
+        return(
+          <ProjectDetialForm
+          projectInfo={resumeData?.projects}
+          updateArrayItems={(index,key,value)=>{
+            updateArrayItems("projects",index,key,value)
+          }}
+          addArrayItem={(newItem)=>{addArrayItem("projects",newItem)}}
+          removeArrayItem={(index)=>{removeArrayItem("projects",index)}}/>
+        )
+      case "certification":
+        return(
+          <CertificationFrom
+          certificationsInfo={resumeData?.certifications}
+          updateArrayItems={(index,key,value)=>{
+            updateArrayItems("certifications",index,key,value)
+          }}
+          addArrayItem={(newItem)=>{addArrayItem("certifications",newItem)}}
+          removeArrayItem={(index)=>{removeArrayItem("certifications",index)}}/>
+        )
       default:
         return null
     }
@@ -209,37 +221,37 @@ const EditResume = () => {
     }))
   };
 
-//Update array items (like workExperience[0], skills[1], etc.)
-const updateArrayItems=(section,index,key,value)=>{
-  setResumeData((prev)=>{
-    const updateArray=[...(prev[section] || [])]
-    if(typeof updateArray[index]==="object" && updateArray[index]!==null){
-      updateArray[index]={...updateArray[index],[key]:value}
-    }else{
-      updateArray[index]=value
-    }
-    return{
+  //Update array items (like workExperience[0], skills[1], etc.)
+  const updateArrayItems=(section,index,key,value)=>{
+    setResumeData((prev)=>{
+      const updateArray=[...(prev[section] || [])]
+      if(typeof updateArray[index]==="object" && updateArray[index]!==null){
+        updateArray[index]={...updateArray[index],[key]:value}
+      }else{
+        updateArray[index]=value
+      }
+      return{
+        ...prev,
+        [section]:updateArray
+      }
+    })
+  }
+
+  //Add items to array
+  const addArrayItem=(section,newItem)=>{
+    setResumeData((prev)=>({
       ...prev,
-      [section]:updateArray
-    }
-  })
-}
+      [section]:[...(prev[section] || []),newItem]
+    }))
+  }
 
-//Add items to array
-const addArrayItem=(section,newItem)=>{
-  setResumeData((prev)=>({
-    ...prev,
-    [section]:[...(prev[section] || []),newItem]
-  }))
-}
-
-//Remove item from an array
-const removeArrayItem=(section,index)=>{
-  setResumeData((prev)=>({
-    ...prev,
-    [section]:(prev[section] || []).filter((_,itemIndex)=>itemIndex!==index)
-  }))
-}
+  //Remove item from an array
+  const removeArrayItem=(section,index)=>{
+    setResumeData((prev)=>({
+      ...prev,
+      [section]:(prev[section] || []).filter((_,itemIndex)=>itemIndex!==index)
+    }))
+  }
 
   //fetch Resume By ID
   const FetchResumeById = async () => {
@@ -281,15 +293,15 @@ const removeArrayItem=(section,index)=>{
   };
 
   //update Thumbnail and resume profile Img
-  const uploadResumeImages = async () => { };
+  const uploadResumeImages = async () => {};
 
   const updateResumeDetails = async (
     thumbnailLink,
     profilePreviewUrl
-  ) => { };
+  ) => {};
 
   //Delete Resume
-  const handleDeleteResume = () => { };
+  const handleDeleteResume = () => {};
 
   //Download Resume
   const reactToPrintfn = useReactToPrint({
@@ -297,7 +309,7 @@ const removeArrayItem=(section,index)=>{
   });
 
   //function to update base width
-  const updateBaseWidth = () => { };
+  const updateBaseWidth = () => {};
 
   useEffect(() => {
     updateBaseWidth();
