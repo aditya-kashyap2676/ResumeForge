@@ -23,6 +23,7 @@ import EducationDetailForm from "./Forms/EducationDetailForm";
 import SkillsInfoForm from "./Forms/SkillsInfoForm";
 import ProjectDetialForm from "./Forms/ProjectDetialForm";
 import CertificationFrom from "./Forms/CertificationFrom";
+import AdditionalInfoForm from "./Forms/AdditionalInfoForm";
 
 const EditResume = () => {
   const { resumeId } = useParams();
@@ -34,7 +35,7 @@ const EditResume = () => {
   const [baseWidth, setBaseWidth] = useState(800);
   const [openThemeSelector, setOpenThemeSelector] = useState(false);
   const [openPreviewModal, setOpenPreviewModal] = useState(false);
-  const [currentPage, setCurrentPage] = useState("certification");
+  const [currentPage, setCurrentPage] = useState("additionalInfo");
   const [progress, setProgress] = useState(0);
 
   const [resumeData, setResumeData] = useState({
@@ -205,6 +206,15 @@ const EditResume = () => {
           addArrayItem={(newItem)=>{addArrayItem("certifications",newItem)}}
           removeArrayItem={(index)=>{removeArrayItem("certifications",index)}}/>
         )
+        case "additionalInfo":
+          return(
+            <AdditionalInfoForm
+            languages={resumeData.languages}
+            interests={resumeData.interests}
+            updateArrayItems={(section,index,key,value)=>{updateArrayItems(section,index,key,value)}}
+            addArrayItem={(section,newItem)=>{addArrayItem(section,newItem)}}
+            removeArrayItem={(section,index)=>{removeArrayItem(section,index)}}/>
+          )
       default:
         return null
     }
