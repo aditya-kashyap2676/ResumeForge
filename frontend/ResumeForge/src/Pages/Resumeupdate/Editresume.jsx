@@ -24,6 +24,7 @@ import SkillsInfoForm from "./Forms/SkillsInfoForm";
 import ProjectDetialForm from "./Forms/ProjectDetialForm";
 import CertificationFrom from "./Forms/CertificationFrom";
 import AdditionalInfoForm from "./Forms/AdditionalInfoForm";
+import RenderResume from "../../components/ResumeTemplates/RenderResume";
 
 const EditResume = () => {
   const { resumeId } = useParams();
@@ -534,7 +535,11 @@ const EditResume = () => {
   });
 
   // Function to update base width
-  const updateBaseWidth = () => {};
+  const updateBaseWidth = () => {
+    if(resumeRef.current){
+      setBaseWidth(resumeRef.current.offsetWidth)
+    }
+  };
 
   useEffect(() => {
     updateBaseWidth();
@@ -600,7 +605,7 @@ const EditResume = () => {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-          <div className="bg-white rounded-lg border border-purple-100 overflow-hidden">
+          {/* <div className="bg-white rounded-lg border border-purple-100 overflow-hidden">
             <Stepprogress progress={progress} />
             {renderForm()}
 
@@ -653,10 +658,15 @@ const EditResume = () => {
                 </button>
               </div>
             </div>
-          </div>
+          </div> */}
 
           <div className="h-screen" ref={resumeRef}>
             {/* Resume Template */}
+            <RenderResume 
+            templateId={resumeData?.template?.theme} 
+            resumeData={resumeData} 
+            colorPalette={resumeData?.template?.colorPalette} 
+            containerWidth={baseWidth}/>
           </div>
         </div>
       </div>
