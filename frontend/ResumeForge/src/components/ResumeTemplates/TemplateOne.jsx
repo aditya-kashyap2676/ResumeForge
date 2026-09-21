@@ -1,7 +1,9 @@
 import React, { useEffect, useRef, useState } from 'react'
-import { LuMapPinHouse,LuMail,LuPhone,LuRss,LuGithub,LuUser } from 'react-icons/lu'
+import { LuMapPinHouse,LuMail,LuPhone,LuRss,LuGithub,LuUser, LuLinkedin } from 'react-icons/lu'
 import { RiLinkedinLine } from "react-icons/ri"
 import ContactInfo from '../ResumeSections/ContactInfo'
+import { formatYearMonth } from '../../Utils/helper'
+import EducationInfo from '../ResumeSections/EducationInfo'
 
 const DEFAULT_THEME=["#EBFDFF","#A1F4FD","#CEFAFE","#00B8DB","#4A5565"]
 
@@ -62,7 +64,42 @@ const TemplateOne = ({resumeData,colorPalette,containerWidth}) => {
                                 iconBg={themeColors[2]}
                                 value={resumeData?.contactInfo?.location || ""}
                             />
+                            <ContactInfo
+                                icon={<LuMail/>}
+                                iconBg={themeColors[2]}
+                                value={resumeData?.contactInfo?.email || ""}
+                            />
+                             <ContactInfo
+                                icon={<LuPhone/>}
+                                iconBg={themeColors[2]}
+                                value={resumeData?.contactInfo?.phone || ""}
+                            />
+                            {resumeData.contactInfo.linkedin && (
+                              <ContactInfo
+                              icon={<LuLinkedin/>}
+                              iconBg={themeColors[2]}
+                              value={resumeData.contactInfo.linkedin}/>
+                            )}
+                             {resumeData.contactInfo.github && (
+                              <ContactInfo
+                              icon={<LuGithub/>}
+                              iconBg={themeColors[2]}
+                              value={resumeData.contactInfo.github}/>
+                            )}
+                            <ContactInfo
+                            icon={<LuRss/>}
+                            iconBg={themeColors[2]}
+                            value={resumeData.contactInfo.website}/>
+                            
                         </div>
+                        <div className="mt-6"><Title text="Education" color={themeColors[1]}/>
+                        {resumeData.education.map((data,index)=>(
+                          <EducationInfo 
+                          key={`education_${index}`}
+                          degree={data.degree}
+                          institution={data.institution}
+                          duration={`${formatYearMonth(data.startDate)} - ${formatYearMonth(data.endDate)}`}/>
+                        ))}</div>
                     </div>
                 </div>
                 <div className="col-span-8 pt-10 mr-10 pb-5"></div>
