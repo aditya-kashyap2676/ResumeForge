@@ -8,6 +8,7 @@ import LanguageSection from '../ResumeSections/LanguageSection'
 import WorkExperience from '../ResumeSections/WorkExperience'
 import ProjectInfo from '../ResumeSections/ProjectInfo'
 import SkillSection from '../ResumeSections/SkillSection'
+import CertificationInfo from '../ResumeSections/CertificationInfo'
 
 const DEFAULT_THEME = ["#EBFDFF", "#A1F4FD", "#CEFAFE", "#00B8DB", "#4A5565"]
 
@@ -37,7 +38,6 @@ const TemplateOne = ({ resumeData, colorPalette, containerWidth }) => {
             setScale(containerWidth / actualBaseWidth)
         }
     }, [containerWidth])
-
     return (
         <div ref={resumeRef} className='p-3 bg-white'
             style={{
@@ -157,6 +157,20 @@ const TemplateOne = ({ resumeData, colorPalette, containerWidth }) => {
                         skills={resumeData.skills}
                         accentColor={themeColors[3]}
                         bgColor={themeColors[2]}/>
+                    </div>
+
+                    <div className="mt-4">
+                        <Title text="Certification" color={themeColors[1]}/>
+                        <div className="grid grid-cols-2 gap-2">
+                            {resumeData.certifications.map((data,index)=>(
+                                <CertificationInfo
+                                key={`cert_${index}`}
+                                title={data.title}
+                                issuer={data.issuer}
+                                year={data.year}
+                                bgColor={themeColors[2]}/>
+                            ))}
+                        </div>
                     </div>
                 </div>
             </div>
