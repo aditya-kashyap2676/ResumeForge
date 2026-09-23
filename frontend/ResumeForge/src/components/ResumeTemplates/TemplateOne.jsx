@@ -4,6 +4,7 @@ import { RiLinkedinLine } from "react-icons/ri"
 import ContactInfo from '../ResumeSections/ContactInfo'
 import { formatYearMonth } from '../../Utils/helper'
 import EducationInfo from '../ResumeSections/EducationInfo'
+import LanguageSection from '../ResumeSections/LanguageSection'
 
 const DEFAULT_THEME=["#EBFDFF","#A1F4FD","#CEFAFE","#00B8DB","#4A5565"]
 
@@ -92,7 +93,7 @@ const TemplateOne = ({resumeData,colorPalette,containerWidth}) => {
                             value={resumeData.contactInfo.website}/>
                             
                         </div>
-                        <div className="mt-6"><Title text="Education" color={themeColors[1]}/>
+                        <div className="mt-5"><Title text="Education" color={themeColors[1]}/>
                         {resumeData.education.map((data,index)=>(
                           <EducationInfo 
                           key={`education_${index}`}
@@ -100,6 +101,13 @@ const TemplateOne = ({resumeData,colorPalette,containerWidth}) => {
                           institution={data.institution}
                           duration={`${formatYearMonth(data.startDate)} - ${formatYearMonth(data.endDate)}`}/>
                         ))}</div>
+                        <div className="mt-5">
+                          <Title text="languages" color={themeColors[1]}/>
+                          <LanguageSection
+                          languages={resumeData.languages}
+                          accentColor={themeColors[3]}
+                          bgColor={themeColors[2]}/>
+                        </div>
                     </div>
                 </div>
                 <div className="col-span-8 pt-10 mr-10 pb-5"></div>
