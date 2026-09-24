@@ -25,6 +25,7 @@ import ProjectDetialForm from "./Forms/ProjectDetialForm";
 import CertificationFrom from "./Forms/CertificationFrom";
 import AdditionalInfoForm from "./Forms/AdditionalInfoForm";
 import RenderResume from "../../components/ResumeTemplates/RenderResume";
+import { captureElementAsImage, dataURLToFile, fixTailwindColors } from "../../Utils/helper";
 
 const EditResume = () => {
   const { resumeId } = useParams();
@@ -507,12 +508,12 @@ const EditResume = () => {
           education: resumeInfo?.education || prevState?.education,
           skills: resumeInfo?.skills || prevState?.skills,
           projects: resumeInfo?.projects || prevState?.projects,
-         certifications: (
-  resumeInfo?.certifications || prevState.certifications
-).map(({ issue, ...cert }) => ({
-  ...cert,
-  issuer: cert.issuer || issue || "",
-})),
+          certifications: (
+            resumeInfo?.certifications || prevState.certifications
+          ).map(({ issue, ...cert }) => ({
+            ...cert,
+            issuer: cert.issuer || issue || "",
+          })),
           languages: resumeInfo?.languages || prevState?.languages,
           interests: resumeInfo?.interests || prevState?.interests,
         }));
@@ -524,55 +525,61 @@ const EditResume = () => {
 
   // Update Thumbnail and resume profile Img
   const uploadResumeImages = async () => {
-    const imageFile = resumeData.profileInfo.profileImg;
-    if (!(imageFile instanceof File) || isLoading) return;
-
-    setIsLoading(true);
     try {
-      const formData = new FormData();
-      formData.append("profileImage", imageFile);
-
-      const response = await axiosInstance.put(
+      setIsLoading(true)
+      fixTailwindColors(resumeRef.current);
+      const imageDataUrl = await captureElementAsImage(resumeRef.current)
+      //convert base64 to file
+      const ThumbnailFile = dataURLToFile(imageDataUrl, `resume-${resumeId}.png`)
+      const profileImageFile = resumeData?.profileInfo.profileImg || null
+      const formData = new FormData()
+      if (profileImageFile) formData.append("profileImage", profileImageFile)
+      if (ThumbnailFile) formData.append("thumbnail", ThumbnailFile)
+      const uploadResponse = await axiosInstance.put(
         API_PATHS.RESUME.UPLOAD_IMAGES(resumeId),
-        formData,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        }
-      );
-
-      const profilePreviewUrl = response.data.profilePreviewUrl;
-      if (!profilePreviewUrl) {
-        throw new Error("Uploaded image URL nahi mila");
-      }
-
-      setResumeData((prev) => ({
-        ...prev,
-        profileInfo: {
-          ...prev.profileInfo,
-          profileImg: null,
-          profilePreviewUrl,
-        },
-      }));
-
-      toast.success("Image uploaded successfully");
+        formData, { headers: { "Content-Type": "multipart/form-data" } })
+      const { thumbnailLink, profilePreviewUrl } = uploadResponse.data
+      console.log("Resume_DATA__", resumeData);
+      //Call the second API to Update other Resume data
+      await updateResumeDetails(thumbnailLink, profilePreviewUrl)
+      toast.success("Resume Updarted Successfully")
+      navigate("/dashboard")
     } catch (error) {
+      console.error("Full error:", error);
+      console.error("Backend response:", JSON.stringify(error.response?.data, null, 2));
+       console.error("Status:", error.response?.status);
+
       toast.error(
-        error.response?.data?.error ||
         error.response?.data?.message ||
         error.message ||
-        "Image upload failed"
+        "Failed to upload images"
       );
     } finally {
       setIsLoading(false);
     }
-  };
+  }
 
-  const updateResumeDetails = async (
-    thumbnailLink,
-    profilePreviewUrl
-  ) => { };
+  const updateResumeDetails = async (thumbnailLink, profilePreviewUrl) => {
+    try {
+      setIsLoading(true);
+
+      const response = await axiosInstance.put(
+        API_PATHS.RESUME.UPDATE(resumeId),
+        {
+          ...resumeData,
+          thumbnailLink: thumbnailLink || "",
+          profileInfo: {
+            ...resumeData.profileInfo,
+            profilePreviewUrl: profilePreviewUrl || "",
+          },
+        }
+      );
+    } catch (err) {
+      console.error("Error capturing image:", err);
+    } finally {
+      setIsLoading(false);
+    }
+  };
   // Delete Resume
   const handleDeleteResume = () => { };
 
