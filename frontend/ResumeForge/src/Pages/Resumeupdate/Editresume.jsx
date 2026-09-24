@@ -507,8 +507,12 @@ const EditResume = () => {
           education: resumeInfo?.education || prevState?.education,
           skills: resumeInfo?.skills || prevState?.skills,
           projects: resumeInfo?.projects || prevState?.projects,
-          certifications:
-            resumeInfo?.certifications || prevState?.certifications,
+         certifications: (
+  resumeInfo?.certifications || prevState.certifications
+).map(({ issue, ...cert }) => ({
+  ...cert,
+  issuer: cert.issuer || issue || "",
+})),
           languages: resumeInfo?.languages || prevState?.languages,
           interests: resumeInfo?.interests || prevState?.interests,
         }));
@@ -519,15 +523,15 @@ const EditResume = () => {
   };
 
   // Update Thumbnail and resume profile Img
-  const uploadResumeImages = async () => {};
+  const uploadResumeImages = async () => { };
 
   const updateResumeDetails = async (
     thumbnailLink,
     profilePreviewUrl
-  ) => {};
+  ) => { };
 
   // Delete Resume
-  const handleDeleteResume = () => {};
+  const handleDeleteResume = () => { };
 
   // Download Resume
   const reactToPrintfn = useReactToPrint({
@@ -536,7 +540,7 @@ const EditResume = () => {
 
   // Function to update base width
   const updateBaseWidth = () => {
-    if(resumeRef.current){
+    if (resumeRef.current) {
       setBaseWidth(resumeRef.current.offsetWidth)
     }
   };
@@ -662,11 +666,11 @@ const EditResume = () => {
 
           <div className="h-screen" ref={resumeRef}>
             {/* Resume Template */}
-            <RenderResume 
-            templateId={resumeData?.template?.theme} 
-            resumeData={resumeData} 
-            colorPalette={resumeData?.template?.colorPalette} 
-            containerWidth={baseWidth}/>
+            <RenderResume
+              templateId={resumeData?.template?.theme}
+              resumeData={resumeData}
+              colorPalette={resumeData?.template?.colorPalette}
+              containerWidth={baseWidth} />
           </div>
         </div>
       </div>

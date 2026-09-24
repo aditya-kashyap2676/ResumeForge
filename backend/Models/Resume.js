@@ -59,12 +59,12 @@ const ResumeSchema = new mongoose.Schema(
       },
     ],
     certifications: [
-      {
-        title: String,
-        issue: String,
-        year: String,
-      },
-    ],
+  {
+    title: String,
+    issuer: String,
+    year: String,
+  },
+],
     languages: [
       {
         name: String,

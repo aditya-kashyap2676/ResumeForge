@@ -11,7 +11,6 @@ import SkillSection from '../ResumeSections/SkillSection'
 import CertificationInfo from '../ResumeSections/CertificationInfo'
 
 const DEFAULT_THEME = ["#EBFDFF", "#A1F4FD", "#CEFAFE", "#00B8DB", "#4A5565"]
-
 const Title = ({ text, color }) => {
     return (
         <div className="relative w-fit mb-2.5">
@@ -20,7 +19,6 @@ const Title = ({ text, color }) => {
         </div>
     )
 }
-
 const TemplateOne = ({ resumeData, colorPalette, containerWidth }) => {
     const themeColors = colorPalette?.length > 0 ? colorPalette : DEFAULT_THEME;
     const resumeRef = useRef(null)
@@ -138,37 +136,38 @@ const TemplateOne = ({ resumeData, colorPalette, containerWidth }) => {
                     </div>
 
                     <div className="mt-4">
-                        <Title text="Projects" color={themeColors[1]}/>
-                        {resumeData.projects.map((project, index)=>(
+                        <Title text="Projects" color={themeColors[1]} />
+                        {resumeData.projects.map((project, index) => (
                             <ProjectInfo
-                            key={`project_&{index}`}
-                            title={project.title}
-                            description={project.description}
-                            githubLink={project.github}
-                            liveDemoUrl={project.liveDemo}
-                            bgColor={themeColors[2]}
+                                key={`project_&{index}`}
+                                title={project.title}
+                                description={project.description}
+                                githubLink={project.github}
+                                liveDemoUrl={project.liveDemo}
+                                bgColor={themeColors[2]}
                             />
                         ))}
                     </div>
 
                     <div className="mt-4">
-                        <Title text="Skills" color={themeColors[1]}/>
-                        <SkillSection
-                        skills={resumeData.skills}
-                        accentColor={themeColors[3]}
-                        bgColor={themeColors[2]}/>
+                        <Title text="Skills" color={themeColors[1]} />
+                            <SkillSection
+                                skills={resumeData.skills}
+                                accentColor={themeColors[3]}
+                                bgColor={themeColors[2]} />
+
                     </div>
 
                     <div className="mt-4">
-                        <Title text="Certification" color={themeColors[1]}/>
+                        <Title text="Certification" color={themeColors[1]} />
                         <div className="grid grid-cols-2 gap-2">
-                            {resumeData.certifications.map((data,index)=>(
+                            {resumeData.certifications.map((data, index) => (
                                 <CertificationInfo
-                                key={`cert_${index}`}
-                                title={data.title}
-                                issuer={data.issuer}
-                                year={data.year}
-                                bgColor={themeColors[2]}/>
+                                    key={`cert_${index}`}
+                                    title={data.title}
+                                    issuer={data.issuer || "Issuer missing"}
+                                    year={data.year}
+                                    bgColor={themeColors[2]} />
                             ))}
                         </div>
                     </div>
