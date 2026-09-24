@@ -9,7 +9,7 @@ const __dirname = path.dirname(__filename)
 
 const uploadResumeImages = (req,res)=>{
     upload.fields([
-        {name:"thumbnails",maxCount:1},
+        {name:"thumbnail",maxCount:1},
         {name:"profileImage",maxCount:1}
     ])(req,res,async (err)=>{
         if(err){
@@ -31,7 +31,7 @@ const uploadResumeImages = (req,res)=>{
 
             const uploadsFolder = path.join(__dirname,"..","uploads")
             const baseUrl = `${req.protocol}://${req.get("host")}`
-            const newThumbnail = req.files?.thumbnails?.[0]
+            const newThumbnail = req.files?.thumbnail?.[0]
             const newProfileImage = req.files?.profileImage?.[0]
 
             if(!newThumbnail && !newProfileImage){
