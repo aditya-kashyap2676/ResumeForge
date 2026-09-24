@@ -523,13 +523,56 @@ const EditResume = () => {
   };
 
   // Update Thumbnail and resume profile Img
-  const uploadResumeImages = async () => { };
+  const uploadResumeImages = async () => {
+    const imageFile = resumeData.profileInfo.profileImg;
+    if (!(imageFile instanceof File) || isLoading) return;
+
+    setIsLoading(true);
+    try {
+      const formData = new FormData();
+      formData.append("profileImage", imageFile);
+
+      const response = await axiosInstance.put(
+        API_PATHS.RESUME.UPLOAD_IMAGES(resumeId),
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
+
+      const profilePreviewUrl = response.data.profilePreviewUrl;
+      if (!profilePreviewUrl) {
+        throw new Error("Uploaded image URL nahi mila");
+      }
+
+      setResumeData((prev) => ({
+        ...prev,
+        profileInfo: {
+          ...prev.profileInfo,
+          profileImg: null,
+          profilePreviewUrl,
+        },
+      }));
+
+      toast.success("Image uploaded successfully");
+    } catch (error) {
+      toast.error(
+        error.response?.data?.error ||
+        error.response?.data?.message ||
+        error.message ||
+        "Image upload failed"
+      );
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   const updateResumeDetails = async (
     thumbnailLink,
     profilePreviewUrl
   ) => { };
-
   // Delete Resume
   const handleDeleteResume = () => { };
 
@@ -609,7 +652,7 @@ const EditResume = () => {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-          {/* <div className="bg-white rounded-lg border border-purple-100 overflow-hidden">
+          <div className="bg-white rounded-lg border border-purple-100 overflow-hidden">
             <Stepprogress progress={progress} />
             {renderForm()}
 
@@ -662,7 +705,7 @@ const EditResume = () => {
                 </button>
               </div>
             </div>
-          </div> */}
+          </div>
 
           <div className="h-screen" ref={resumeRef}>
             {/* Resume Template */}

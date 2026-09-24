@@ -50,6 +50,7 @@ const uploadImage = async (imageFile) => {
       error.response?.data?.message || "Image upload failed"
     );
   }
+  
 };
 
 export default uploadImage;
