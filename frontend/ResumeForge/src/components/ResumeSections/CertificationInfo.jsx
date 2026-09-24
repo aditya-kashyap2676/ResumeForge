@@ -1,3 +1,6 @@
+
+
+
 import React from "react";
 
 const CertificationInfo = ({ title, issuer, year, bgColor }) => {
