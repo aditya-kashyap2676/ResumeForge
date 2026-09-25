@@ -44,7 +44,7 @@ const TemplateOne = ({ resumeData, colorPalette, containerWidth }) => {
                 width: containerWidth > 0 ? `${baseWidth}px` : "auto",
                 height: "auto"
             }}>
-            <div className="grid grid-cols-12 gap-8">
+            <div className="grid grid-cols-12 gap-8 min-h-[1108px]">
                 <div className="col-span-4 py-10" style={{ background: themeColors[0] }}>
                     <div className="flex flex-col items-center px-2">
                         <div className="w-25 h-25 max-w-27.5 max-h-27.5 rounded-full flex items-center justify-center" style={{ backgroundColor: themeColors[1] }}>
@@ -139,7 +139,7 @@ const TemplateOne = ({ resumeData, colorPalette, containerWidth }) => {
                         <Title text="Projects" color={themeColors[1]} />
                         {resumeData.projects.map((project, index) => (
                             <ProjectInfo
-                                key={`project_&{index}`}
+                                key={project._id || `project_${index}`}
                                 title={project.title}
                                 description={project.description}
                                 githubLink={project.github}
@@ -151,10 +151,10 @@ const TemplateOne = ({ resumeData, colorPalette, containerWidth }) => {
 
                     <div className="mt-4">
                         <Title text="Skills" color={themeColors[1]} />
-                            <SkillSection
-                                skills={resumeData.skills}
-                                accentColor={themeColors[3]}
-                                bgColor={themeColors[2]} />
+                        <SkillSection
+                            skills={resumeData.skills}
+                            accentColor={themeColors[3]}
+                            bgColor={themeColors[2]} />
 
                     </div>
 
@@ -173,19 +173,19 @@ const TemplateOne = ({ resumeData, colorPalette, containerWidth }) => {
                     </div>
 
                     {resumeData.interests?.length > 0 && resumeData.interests[0] != "" &&
-                    <div className="mt-4">
-                        <Title text="Interests" color={themeColors[1]}/>
-                        <div className="flex items-center flex-wrap gap-3 mt-4">
-                            {resumeData.interests.map((interest,index)=>{
-                                if(!interest) return null;
-                                return(
-                                    <div className="text-[10px] font-medium py-1 px-3 rounded-lg"
-                                    key={`interest_${index}`}
-                                    style={{backgroundColor:themeColors[2]}}>{interest}</div>
-                                )
-                            })}
-                        </div>
-                    </div>}
+                        <div className="mt-4">
+                            <Title text="Interests" color={themeColors[1]} />
+                            <div className="flex items-center flex-wrap gap-3 mt-4">
+                                {resumeData.interests.map((interest, index) => {
+                                    if (!interest) return null;
+                                    return (
+                                        <div className="text-[10px] font-medium py-1 px-3 rounded-lg"
+                                            key={`interest_${index}`}
+                                            style={{ backgroundColor: themeColors[2] }}>{interest}</div>
+                                    )
+                                })}
+                            </div>
+                        </div>}
                 </div>
             </div>
         </div>
