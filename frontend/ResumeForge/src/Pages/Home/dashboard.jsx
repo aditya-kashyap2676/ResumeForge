@@ -4,7 +4,6 @@ import { LuCirclePlus } from "react-icons/lu";
 import axiosInstance from "../../utils/axiosInstance";
 import { API_PATHS } from "../../utils/apipaths";
 import DashboardLayout from "../../components/layouts/DashboardLayout";
-// import ResumeSummaryCard from "../../components/Cards/ResumeSummaryCard";
 import moment from 'moment'
 import ResumeSummaryCard from "../../components/Cards/ResumeSummaryCard ";
 import CreateResumeForm from "./CreateResumeForm";
@@ -77,3 +76,4 @@ const Dashboard = () => {
 };
 
 export default Dashboard;
+
