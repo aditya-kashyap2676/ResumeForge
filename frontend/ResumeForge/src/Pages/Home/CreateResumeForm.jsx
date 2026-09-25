@@ -30,7 +30,7 @@ const CreateResumeForm = () => {
         }
       );
 
-      console.log("Create resume response:", response.data);
+      // console.log("Create resume response:", response.data);
 
       // Backend response direct resume ya { resume: {...} } ho sakta hai
       const resumeId =

@@ -9,30 +9,30 @@ import Modal from "../components/Modals/Modal";
 import { UserContext } from "../context/useContext";
 import { useNavigate } from "react-router-dom";
 const Landingpage = () => {
-  const {user} = useContext(UserContext)
+  const { user } = useContext(UserContext)
   const navigate = useNavigate()
   const [openAuthmodal, setOpenAuthmodal] = useState(false);
   const [currentpage, setCurrentpage] = useState("login")
   return (
-    <div className="w-full min-h-screen bg-white overflow-hidden">
-      <div className="px-4 py-6">
-        <Header setOpenAuthmodal={setOpenAuthmodal} />
-        <Hero setOpenAuthmodal={setOpenAuthmodal} />
-        <Features />
-        <Footer />
+    <div className="w-full min-h-screen bg-white">
+            <div className="px-4 py-6">
+      <Header setOpenAuthmodal={setOpenAuthmodal} />
+      <Hero setOpenAuthmodal={setOpenAuthmodal} />
+      <Features />
+      <Footer />
 
-        <Modal
-          isopen={openAuthmodal}
-          onclose={() => {
-            setOpenAuthmodal(false)
-            setCurrentpage("login")
-          }} hideheader>
-          <div>
-            {currentpage === "login" && <Login setCurrentpage={setCurrentpage} />}
-            {currentpage === "signup" && <Signup setCurrentpage={setCurrentpage} />}
-          </div>
-        </Modal>
-      </div>
+      <Modal
+        isopen={openAuthmodal}
+        onclose={() => {
+          setOpenAuthmodal(false)
+          setCurrentpage("login")
+        }} hideheader>
+        <div>
+          {currentpage === "login" && <Login setCurrentpage={setCurrentpage} />}
+          {currentpage === "signup" && <Signup setCurrentpage={setCurrentpage} />}
+        </div>
+      </Modal>
+    </div>
     </div>
   );
 };
