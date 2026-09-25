@@ -26,6 +26,8 @@ import CertificationFrom from "./Forms/CertificationFrom";
 import AdditionalInfoForm from "./Forms/AdditionalInfoForm";
 import RenderResume from "../../components/ResumeTemplates/RenderResume";
 import { captureElementAsImage, dataURLToFile, fixTailwindColors } from "../../Utils/helper";
+import ThemeSelector from "../ThemeSelector";
+import Modal from "../../components/Modals/Modal"
 
 const EditResume = () => {
   const { resumeId } = useParams();
@@ -724,6 +726,26 @@ const EditResume = () => {
           </div>
         </div>
       </div>
+
+     <Modal
+    isopen={openThemeSelector}
+    onclose={() => setOpenThemeSelector(false)}
+    title="Change Theme"
+>
+    <div className="w-[90vw] h-[80vh]">
+        <ThemeSelector
+            selectedTheme={resumeData?.template}
+            setSelectedTheme={(value) => {
+                setResumeData((prevState) => ({
+                    ...prevState,
+                    template: value || prevState.template,
+                }));
+            }}
+            resumeData={null}
+            onClose={() => setOpenThemeSelector(false)}
+        />
+    </div>
+</Modal>
     </DashboardLayout>
   );
 };
