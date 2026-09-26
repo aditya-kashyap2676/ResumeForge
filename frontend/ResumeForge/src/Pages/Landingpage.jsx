@@ -1,6 +1,5 @@
 
-
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 import Header from "../components/LandingPage/Header";
 import Hero from "../components/LandingPage/Hero";
 import Features from "../components/LandingPage/Feature";
@@ -8,12 +7,8 @@ import Footer from "../components/LandingPage/Footer";
 import Login from "../Pages/Auth/Login";
 import Signup from "../Pages/Auth/Signup";
 import Modal from "../components/Modals/Modal";
-import { UserContext } from "../context/UseContext";
-import { useNavigate } from "react-router-dom";
 
 const Landingpage = () => {
-  const { user } = useContext(UserContext);
-  const navigate = useNavigate();
   const [openAuthmodal, setOpenAuthmodal] = useState(false);
   const [currentpage, setCurrentpage] = useState("login");
 
@@ -48,3 +43,4 @@ const Landingpage = () => {
 };
 
 export default Landingpage;
+

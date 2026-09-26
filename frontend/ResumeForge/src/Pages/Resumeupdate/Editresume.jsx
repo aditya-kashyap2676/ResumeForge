@@ -13,7 +13,7 @@ import toast from "react-hot-toast";
 import DashboardLayout from "../../components/layouts/DashboardLayout";
 import TitleInput from "../../components/Inputs/TitleInput";
 import { useReactToPrint } from "react-to-print";
-import axiosInstance from "../../utils/axiosInstance";
+import axiosInstance from "../../utils/axiosinstance";
 import { API_PATHS } from "../../utils/apipaths";
 import Stepprogress from "../../components/Stepprogress";
 import ProfileInfoForm from "./Forms/ProfileInfoForm";

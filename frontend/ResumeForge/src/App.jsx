@@ -9,17 +9,15 @@ import UserProvider from './context/UseContext'
 const App = () => {
   return (
     <UserProvider>
-      <div>
-        <Router>
-          <Toaster />
+      <Router>
+        <Toaster />
 
-          <Routes>
-            <Route path='/' element={<Landingpage />} />
-            <Route path='/dashboard' element={<Dashboard />} />
-            <Route path='/resume/:resumeId' element={<Editresume />} />
-          </Routes>
-        </Router>
-      </div>
+        <Routes>
+          <Route path='/' element={<Landingpage />} />
+          <Route path='/dashboard' element={<Dashboard />} />
+          <Route path='/resume/:resumeId' element={<Editresume />} />
+        </Routes>
+      </Router>
     </UserProvider>
   )
 }

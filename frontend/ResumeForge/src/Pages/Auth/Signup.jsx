@@ -3,9 +3,9 @@ import { useNavigate } from "react-router-dom"
 import Input from '../../components/Inputs/Input'
 import { validateEmail } from '../../Utils/helper'
 import Profilephotoselecter from '../../components/Inputs/Profilephotoselecter'
-import axiosInstance from '../../utils/axiosInstance'
+import axiosInstance from '../../utils/axiosinstance'
 import { API_PATHS } from '../../utils/apipaths'
-import { UserContext } from '../../context/useContext'
+import { UserContext } from '../../context/UseContext'
 import uploadImage from '../../Utils/uploadimage'
 
 const Signup = ({ setCurrentpage }) => {
