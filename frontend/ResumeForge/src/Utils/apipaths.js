@@ -1,5 +1,4 @@
-export const BASE_URL = "http://localhost:3000";
-
+export const BASE_URL = "https://resumeforge-01.onrender.com";
 // utils/apiPaths.js
 export const API_PATHS = {
   AUTH: {
