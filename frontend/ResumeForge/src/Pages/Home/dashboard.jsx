@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { LuCirclePlus } from "react-icons/lu";
-import axiosInstance from "../../utils/axiosinstance";
-import { API_PATHS } from "../../utils/apipaths";
+import axiosInstance from "../../Utils/axiosinstance";
+import { API_PATHS } from "../../Utils/apipaths";
 import DashboardLayout from "../../components/layouts/DashboardLayout";
 import ResumeSummaryCard from "../../components/Cards/ResumeSummaryCard ";
 import CreateResumeForm from "./CreateResumeForm";

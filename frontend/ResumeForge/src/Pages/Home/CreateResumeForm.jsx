@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Input from "../../components/Inputs/Input";
-import axiosInstance from "../../utils/axiosinstance";
-import { API_PATHS } from "../../utils/apipaths";
+import axiosInstance from "../../Utils/axiosinstance";
+import { API_PATHS } from "../../Utils/apipaths";
 
 const CreateResumeForm = () => {
   const [title, setTitle] = useState("");
