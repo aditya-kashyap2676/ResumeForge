@@ -5,7 +5,7 @@ import { validateEmail } from '../../Utils/helper'
 import Profilephotoselecter from '../../components/Inputs/Profilephotoselecter'
 import axiosInstance from '../../utils/axiosinstance'
 import { API_PATHS } from '../../utils/apipaths'
-import { UserContext } from '../../context/UseContext'
+import { UserContext } from '../../context/useContext'
 import uploadImage from '../../Utils/uploadimage'
 
 const Signup = ({ setCurrentpage }) => {
