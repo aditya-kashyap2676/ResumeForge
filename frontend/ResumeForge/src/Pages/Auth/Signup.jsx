@@ -3,8 +3,8 @@ import { useNavigate } from "react-router-dom"
 import Input from '../../components/Inputs/Input'
 import { validateEmail } from '../../Utils/helper'
 import Profilephotoselecter from '../../components/Inputs/Profilephotoselecter'
-import axiosInstance from '../../utils/axiosinstance'
-import { API_PATHS } from '../../utils/apipaths'
+import axiosInstance from '../../Utils/axiosinstance'
+import { API_PATHS } from '../../Utils/apipaths'
 import { UserContext } from '../../context/useContext'
 import uploadImage from '../../Utils/uploadimage'
 
