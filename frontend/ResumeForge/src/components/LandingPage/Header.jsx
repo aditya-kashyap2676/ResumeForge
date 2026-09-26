@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import { motion } from "framer-motion";
 import ProfileInfoCard from "../Cards/ProfileInfoCard";
-import { UserContext } from "../../context/useContext";
+import { UserContext } from "../../context/UseContext";
 
 const Header = ({ setOpenAuthmodal }) => {
   const {user} = useContext(UserContext)

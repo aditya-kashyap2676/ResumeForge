@@ -2,11 +2,9 @@ import React from 'react'
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom"
 import { Toaster } from "react-hot-toast"
 import Landingpage from './Pages/Landingpage'
-// import Signup from './Pages/Auth/signup'
-import Signup from './Pages/Auth/Signup'
 import Dashboard from "./Pages/Home/Dashboard"
 import Editresume from './Pages/Resumeupdate/Editresume'
-import UserProvider from './context/useContext'
+import UserProvider from './context/UseContext'
 
 const App = () => {
   return (

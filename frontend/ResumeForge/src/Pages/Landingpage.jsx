@@ -8,7 +8,7 @@ import Footer from "../components/LandingPage/Footer";
 import Login from "../Pages/Auth/Login";
 import Signup from "../Pages/Auth/Signup";
 import Modal from "../components/Modals/Modal";
-import { UserContext } from "../context/useContext";
+import { UserContext } from "../context/UseContext";
 import { useNavigate } from "react-router-dom";
 
 const Landingpage = () => {

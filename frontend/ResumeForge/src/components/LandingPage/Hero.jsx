@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import { motion } from "framer-motion";
-import { UserContext } from "../../context/useContext";
+import { UserContext } from "../../context/UseContext";
 import { useNavigate } from "react-router-dom";
 
 const Hero = ({ setOpenAuthmodal }) => {

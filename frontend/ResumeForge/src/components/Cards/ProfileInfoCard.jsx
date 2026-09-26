@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { UserContext } from "../../context/useContext";
+import { UserContext } from "../../context/UseContext";
 import { useNavigate } from "react-router-dom";
 
 const ProfileInfoCard = () => {
