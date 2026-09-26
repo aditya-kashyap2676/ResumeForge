@@ -4,7 +4,7 @@ import { Toaster } from "react-hot-toast"
 import Landingpage from './Pages/Landingpage'
 // import Signup from './Pages/Auth/signup'
 import Signup from './Pages/Auth/Signup'
-import Dashboard from './Pages/Home/Dashboard'
+import Dashboard from "./Pages/Home/Dashboard"
 import Editresume from './Pages/Resumeupdate/Editresume'
 import UserProvider from './context/useContext'
 
