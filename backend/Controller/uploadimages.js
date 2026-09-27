@@ -39,6 +39,9 @@ const uploadResumeImages = (req, res) => {
       const newThumbnail = req.files?.thumbnail?.[0];
       const newProfileImage = req.files?.profileImage?.[0];
 
+      console.log("Uploaded profile image:", newProfileImage);
+console.log("Uploads folder:", uploadsFolder);
+
       if (!newThumbnail && !newProfileImage) {
         return res.status(400).json({
           message: "No image received",
