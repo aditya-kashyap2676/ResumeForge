@@ -1,0 +1,10 @@
+services:
+  - type: web
+    runtime: static
+    name: resumeforge
+    buildCommand: cd frontend/ResumeForge && npm install && npm run build
+    staticPublishPath: frontend/ResumeForge/dist
+    routes:
+      - type: rewrite
+        source: /*
+        destination: /index.html
