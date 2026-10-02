@@ -1,6 +1,7 @@
 import { User } from "../Models/User.js";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
+import { deleteStoredImage, storeImage } from "../Config/imageStorage.js";
 
 // Generate JWT Token
 const generateToken = (userId) => {
@@ -136,8 +137,54 @@ const getUserProfile = async (req, res) => {
   }
 };
 
+const updateProfileImage = async (req, res) => {
+  if (!req.file) {
+    return res.status(400).json({ message: "No file uploaded" });
+  }
+
+  let imageUrl;
+
+  try {
+    const user = await User.findById(req.user.id);
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    imageUrl = await storeImage(req.file, {
+      folder: "resumeforge/profile-images",
+      baseUrl: `${req.protocol}://${req.get("host")}`,
+    });
+
+    const oldImageUrl = user.profileImageUrl;
+    user.profileImageUrl = imageUrl;
+    await user.save();
+
+    if (oldImageUrl) {
+      try {
+        await deleteStoredImage(oldImageUrl);
+      } catch (error) {
+        console.error("Error deleting replaced profile image:", error);
+      }
+    }
+
+    return res.status(200).json({ profileImageUrl: imageUrl });
+  } catch (error) {
+    if (imageUrl) {
+      await deleteStoredImage(imageUrl).catch((cleanupError) => {
+        console.error("Error cleaning up failed profile image:", cleanupError);
+      });
+    }
+
+    return res.status(500).json({
+      message: "Profile image update failed",
+      error: error.message,
+    });
+  }
+};
+
 export {
   registerUser,
   loginUser,
-  getUserProfile
+  getUserProfile,
+  updateProfileImage,
 };

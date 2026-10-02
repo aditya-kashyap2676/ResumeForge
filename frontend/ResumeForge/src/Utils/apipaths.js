@@ -5,6 +5,7 @@ export const API_PATHS = {
     REGISTER: "/api/auth/register",                              // Signup
     LOGIN: "/api/auth/login",                                    // Authenticate user & return JWT token
     GET_PROFILE: "/api/auth/profile",                            // Get logged-in user details
+    UPDATE_PROFILE_IMAGE: "/api/auth/profile-image",
   },
   RESUME: {
     CREATE: "/api/resume",                                      // POST - Create a new resume
