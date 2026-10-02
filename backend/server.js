@@ -5,12 +5,12 @@ import connectDB from "./Config/db.js";
 import dns from "dns";
 import authRoutes from "./routes/authRoutes.js";
 import resumeRoutes from "./routes/resumeRoutes.js";
-import { ensureUploadsDir, getUploadsDir } from "./Config/uploads.js";
+import { getUploadsDir } from "./Config/uploads.js";
+import { isCloudinaryConfigured } from "./Config/imageStorage.js";
 
 dns.setServers(["8.8.8.8", "8.8.4.4"]);
 
 dotenv.config();
-ensureUploadsDir();
 
 const app = express();
 app.set("trust proxy", 1);
@@ -47,4 +47,5 @@ const PORT = process.env.PORT || 5000;
 
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
+  console.log(`Image storage: ${isCloudinaryConfigured() ? "Cloudinary" : "local disk"}`);
 });

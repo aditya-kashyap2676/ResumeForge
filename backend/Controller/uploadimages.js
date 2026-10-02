@@ -1,8 +1,6 @@
-import fs from "fs";
-import path from "path";
 import Resume from "../Models/Resume.js";
 import upload from "../Middlewares/uploadMiddleware.js";
-import { getUploadsDir } from "../Config/uploads.js";
+import { deleteStoredImage, storeImage } from "../Config/imageStorage.js";
 
 const uploadResumeImages = (req, res) => {
   upload.fields([
@@ -16,6 +14,8 @@ const uploadResumeImages = (req, res) => {
       });
     }
 
+    const uploadedImageUrls = [];
+
     try {
       const resume = await Resume.findOne({
         _id: req.params.id,
@@ -28,16 +28,10 @@ const uploadResumeImages = (req, res) => {
         });
       }
 
-      const uploadsFolder = getUploadsDir();
-
-      // Production/local dono mein current backend host automatically use hoga
       const baseUrl = `${req.protocol}://${req.get("host")}`;
 
       const newThumbnail = req.files?.thumbnail?.[0];
       const newProfileImage = req.files?.profileImage?.[0];
-
-      console.log("Uploaded profile image:", newProfileImage);
-console.log("Uploads folder:", uploadsFolder);
 
       if (!newThumbnail && !newProfileImage) {
         return res.status(400).json({
@@ -45,51 +39,43 @@ console.log("Uploads folder:", uploadsFolder);
         });
       }
 
-      const oldThumbnailUrl = resume.thumbnailLink;
-      const oldProfileUrl = resume.profileInfo?.profilePreviewUrl;
+      const oldImageUrls = [];
 
-      // Thumbnail
       if (newThumbnail) {
-        resume.thumbnailLink = `${baseUrl}/uploads/${newThumbnail.filename}`;
+        const oldUrl = resume.thumbnailLink;
+        const newUrl = await storeImage(newThumbnail, {
+          folder: "resumeforge/resume-thumbnails",
+          baseUrl,
+        });
+        uploadedImageUrls.push(newUrl);
+        resume.thumbnailLink = newUrl;
+        if (oldUrl) oldImageUrls.push(oldUrl);
       }
 
-      // Profile Image
       if (newProfileImage) {
         if (!resume.profileInfo) {
           resume.profileInfo = {};
         }
 
-        resume.profileInfo.profilePreviewUrl =
-          `${baseUrl}/uploads/${newProfileImage.filename}`;
+        const oldUrl = resume.profileInfo.profilePreviewUrl;
+        const newUrl = await storeImage(newProfileImage, {
+          folder: "resumeforge/resume-profile-images",
+          baseUrl,
+        });
+        uploadedImageUrls.push(newUrl);
+        resume.profileInfo.profilePreviewUrl = newUrl;
+        if (oldUrl) oldImageUrls.push(oldUrl);
       }
 
       await resume.save();
 
-      // Delete old image
-      const removeOldImage = (url) => {
-        if (!url) return;
-
+      await Promise.all(oldImageUrls.map(async (url) => {
         try {
-          const oldFile = path.join(
-            uploadsFolder,
-            path.basename(url)
-          );
-
-          if (fs.existsSync(oldFile)) {
-            fs.unlinkSync(oldFile);
-          }
+          await deleteStoredImage(url);
         } catch (error) {
-          console.error("Error deleting old image:", error);
+          console.error("Error deleting replaced image:", error);
         }
-      };
-
-      if (newThumbnail) {
-        removeOldImage(oldThumbnailUrl);
-      }
-
-      if (newProfileImage) {
-        removeOldImage(oldProfileUrl);
-      }
+      }));
 
       return res.status(200).json({
         message: "Image uploaded successfully",
@@ -97,6 +83,11 @@ console.log("Uploads folder:", uploadsFolder);
         profilePreviewUrl: resume.profileInfo?.profilePreviewUrl,
       });
     } catch (error) {
+      await Promise.all(uploadedImageUrls.map((url) =>
+        deleteStoredImage(url).catch((cleanupError) => {
+          console.error("Error cleaning up failed upload:", cleanupError);
+        })
+      ));
       console.error("Error uploading images:", error);
 
       return res.status(500).json({

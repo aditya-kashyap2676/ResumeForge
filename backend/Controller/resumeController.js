@@ -1,7 +1,5 @@
-import fs from "node:fs"
-import path from "node:path"
 import Resume from "../Models/Resume.js"
-import { getUploadsDir } from "../Config/uploads.js"
+import { deleteStoredImage } from "../Config/imageStorage.js"
 
 //@desc Create a new Resume
 //@route POST/api/resumes
@@ -208,26 +206,6 @@ const deleteResume = async (req, res) => {
                 message: "Resume not Found or Unauthorized"
             })
         }
-       //Delete ThumbnailLink and profilePreviewUrl images from uploads folder
-        const uploadFolder = getUploadsDir()
-        if (resumes.thumbnailLink) {
-            const oldThumbnail = path.join(
-                uploadFolder,
-                path.basename(resumes.thumbnailLink)
-            )
-            if (fs.existsSync(oldThumbnail)) {
-                fs.unlinkSync(oldThumbnail)
-            }
-        }
-        if (resumes.profileInfo?.profilePreviewUrl) {
-            const oldProfileImage = path.join(
-                uploadFolder,
-                path.basename(resumes.profileInfo.profilePreviewUrl)
-            )
-            if (fs.existsSync(oldProfileImage)) {
-                fs.unlinkSync(oldProfileImage)
-            }
-        }
         const deleted = await Resume.findOneAndDelete({
             _id: req.params.id,
             userId: req.user._id,
@@ -237,6 +215,16 @@ const deleteResume = async (req, res) => {
                 message: "Resume not found or unauthorized"
             })
         }
+        await Promise.all([
+            resumes.thumbnailLink,
+            resumes.profileInfo?.profilePreviewUrl,
+        ].filter(Boolean).map(async (imageUrl) => {
+            try {
+                await deleteStoredImage(imageUrl)
+            } catch (error) {
+                console.error("Error deleting resume image:", error)
+            }
+        }))
         res.json({
             message: "Resume deleted Successfully"
         })
