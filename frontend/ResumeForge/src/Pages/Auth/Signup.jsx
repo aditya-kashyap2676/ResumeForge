@@ -61,11 +61,11 @@ const Signup = ({ setCurrentpage }) => {
         }
       )
 
-      const { token } = response.data
+      const { token, user } = response.data
 
       if (token) {
         localStorage.setItem("token", token)
-        updateUser(response.data)
+        updateUser({ ...user, token })
         navigate('/dashboard')
       }
 
