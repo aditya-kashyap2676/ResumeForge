@@ -1,6 +1,7 @@
 import React, { useContext } from "react";
 import { UserContext } from "../../context/useContext";
 import { useNavigate } from "react-router-dom";
+import { normalizeImageUrl } from "../../Utils/helper";
 
 const ProfileInfoCard = () => {
   const { user, clearUser } = useContext(UserContext);
@@ -17,7 +18,7 @@ const ProfileInfoCard = () => {
   return (
     <div className="flex items-center">
       <img
-        src={user.profileImageUrl}
+        src={normalizeImageUrl(user.profileImageUrl)}
         alt="Profile"
         className="w-11 h-11 bg-gray-300 rounded-full mr-3"
       />

@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react'
 import { LuMapPinHouse, LuMail, LuPhone, LuRss, LuGithub, LuUser, LuLinkedin } from 'react-icons/lu'
 import { RiLinkedinLine } from "react-icons/ri"
 import ContactInfo from '../ResumeSections/ContactInfo'
-import { formatYearMonth } from '../../Utils/helper'
+import { formatYearMonth, normalizeImageUrl } from '../../Utils/helper'
 import EducationInfo from '../ResumeSections/EducationInfo'
 import LanguageSection from '../ResumeSections/LanguageSection'
 import WorkExperience from '../ResumeSections/WorkExperience'
@@ -49,7 +49,7 @@ const TemplateOne = ({ resumeData, colorPalette, containerWidth }) => {
                     <div className="flex flex-col items-center px-2">
                         <div className="w-25 h-25 max-w-27.5 max-h-27.5 rounded-full flex items-center justify-center" style={{ backgroundColor: themeColors[1] }}>
                             {resumeData?.profileInfo?.profilePreviewUrl ? (
-                                <img src={resumeData.profileInfo.profilePreviewUrl} alt="Profile" className='w-22.5 h-22.5 rounded-full' />
+                                <img src={normalizeImageUrl(resumeData.profileInfo.profilePreviewUrl)} alt="Profile" className='w-22.5 h-22.5 rounded-full' />
                             ) : (
                                 <div className="w-22.5 h-22.5 flex items-center justify-center text-5xl rounded-full" style={{ color: themeColors[4] }}>
                                     <LuUser />

@@ -8,7 +8,7 @@ import {
     LuUser,
     LuLinkedin
 } from 'react-icons/lu'
-import { formatYearMonth } from '../../Utils/helper'
+import { formatYearMonth, normalizeImageUrl } from '../../Utils/helper'
 
 const DEFAULT_THEME = ["#EAE3FF", "#D8CCFF", "#CBB9F5", "#5726D9", "#241B35"]
 
@@ -146,7 +146,7 @@ const TemplateTwo = ({ resumeData, colorPalette, containerWidth }) => {
                         >
                             {profileInfo.profilePreviewUrl ? (
                                 <img
-                                    src={profileInfo.profilePreviewUrl}
+                                    src={normalizeImageUrl(profileInfo.profilePreviewUrl)}
                                     alt="Profile"
                                     className="w-full h-full object-cover"
                                 />

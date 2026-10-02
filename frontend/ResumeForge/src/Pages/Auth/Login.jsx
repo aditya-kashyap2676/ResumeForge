@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Input from "../../components/Inputs/Input";
 import { validateEmail } from "../../Utils/helper";
@@ -10,6 +10,7 @@ const Login = ({ setCurrentpage }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
 
   // Get updateUser from context
   const { updateUser } = useContext(UserContext);
@@ -18,61 +19,48 @@ const Login = ({ setCurrentpage }) => {
 
   // Handle Login form Submit
   const handlelogin = async (e) => {
-  e.preventDefault();
+    e.preventDefault();
 
-  console.log("1. BUTTON CLICKED");
+    if (loading) return;
 
-  if (!validateEmail(email)) {
-    console.log("2. EMAIL VALIDATION FAILED");
-    setError("Please Enter a valid email address.");
-    return;
-  }
-
-  if (!password) {
-    console.log("3. PASSWORD EMPTY");
-    setError("Please Enter the password.");
-    return;
-  }
-
-  console.log("4. VALIDATION PASSED");
-  console.log("EMAIL:", email);
-  console.log("PASSWORD:", password);
-
-  setError("");
-
-  try {
-    console.log("5. CALLING API");
-
-    const response = await axiosInstance.post(
-      API_PATHS.AUTH.LOGIN,
-      {
-        email,
-        password
-      }
-    );
-
-    console.log("6. API RESPONSE:", response.data);
-
-    const { token, user } = response.data;
-
-    if (token) {
-      localStorage.setItem("token", token);
-
-      updateUser({
-        ...user,
-        token
-      });
-
-      navigate("/dashboard");
+    if (!validateEmail(email)) {
+      setError("Please Enter a valid email address.");
+      return;
     }
 
-  } catch (error) {
-  if (error.response && error.response.data.message) {
-    setError(error.response.data.message);
-  } else {
-    setError("Something went wrong. Please try again.");
-  }
-}
+    if (!password) {
+      setError("Please Enter the password.");
+      return;
+    }
+
+    setError("");
+    setLoading(true);
+
+    try {
+      const response = await axiosInstance.post(
+        API_PATHS.AUTH.LOGIN,
+        { email, password },
+        { timeout: 60000 }
+      );
+
+      const { token, user } = response.data;
+
+      if (token) {
+        localStorage.setItem("token", token);
+        updateUser({ ...user, token });
+        navigate("/dashboard");
+      }
+    } catch (error) {
+      if (error.code === "ECONNABORTED" || error.code === "ETIMEDOUT") {
+        setError("The server is taking too long to respond. Please try again.");
+      } else if (error.response?.data?.message) {
+        setError(error.response.data.message);
+      } else {
+        setError("Something went wrong. Please try again.");
+      }
+    } finally {
+      setLoading(false);
+    }
 };
 
   return (
@@ -117,9 +105,10 @@ const Login = ({ setCurrentpage }) => {
 
         <button
           type="submit"
-          className="w-full bg-black text-white py-3 rounded-lg mt-5 active:scale-95"
+          disabled={loading}
+          className="w-full bg-black text-white py-3 rounded-lg mt-5 active:scale-95 disabled:cursor-not-allowed disabled:opacity-60"
         >
-          LOGIN
+          {loading ? "Logging in..." : "LOGIN"}
         </button>
 
         <p className="text-[13px] text-slate-800 mt-3">

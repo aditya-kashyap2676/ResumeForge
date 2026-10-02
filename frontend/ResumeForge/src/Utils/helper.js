@@ -5,6 +5,20 @@ export const validateEmail = (email) => {
     return regex.test(email)
 }
 
+export const normalizeImageUrl = (imageUrl) => {
+    if (typeof imageUrl !== "string") return imageUrl;
+
+    try {
+        const url = new URL(imageUrl);
+        if (url.origin === "http://resumeforge-01.onrender.com") {
+            url.protocol = "https:";
+        }
+        return url.toString();
+    } catch {
+        return imageUrl;
+    }
+};
+
 //get lightest average color
 export const getLightColorFromImage = (imgUrl) => {
     return new Promise((resolve, reject) => {
