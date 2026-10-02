@@ -1,25 +1,5 @@
 import multer from "multer";
 import path from "path";
-import { ensureUploadsDir } from "../Config/uploads.js";
-
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    try {
-      cb(null, ensureUploadsDir());
-    } catch (error) {
-      cb(error);
-    }
-  },
-
-  filename: (req, file, cb) => {
-    const extension = path.extname(file.originalname).toLowerCase();
-    const fileName = `${Date.now()}-${Math.round(
-      Math.random() * 1e9
-    )}${extension}`;
-
-    cb(null, fileName);
-  },
-});
 
 const fileFilter = (req, file, cb) => {
   const allowedExtensions = [
@@ -52,7 +32,7 @@ const fileFilter = (req, file, cb) => {
 };
 
 const upload = multer({
-  storage,
+  storage: multer.memoryStorage(),
   fileFilter,
   limits: {
     fileSize: 5 * 1024 * 1024,

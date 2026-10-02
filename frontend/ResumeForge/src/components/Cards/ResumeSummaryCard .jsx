@@ -8,7 +8,9 @@ const ResumeSummaryCard = ({
   onSelect,
 }) => {
   const [bgColor, setBgColor] = useState("#ffffff");
+  const [failedImageUrl, setFailedImageUrl] = useState(null);
   const secureImgUrl = normalizeImageUrl(imgUrl);
+  const previewAvailable = secureImgUrl && failedImageUrl !== secureImgUrl;
 
   useEffect(() => {
     if (secureImgUrl) {
@@ -33,15 +35,16 @@ const ResumeSummaryCard = ({
         className="w-full flex-1 min-h-0 p-4 flex items-center justify-center overflow-hidden"
         style={{ backgroundColor: bgColor }}
       >
-        {secureImgUrl ? (
+        {previewAvailable ? (
           <img
             src={secureImgUrl}
             alt={title || "Resume"}
             className="w-full h-full object-contain"
+            onError={() => setFailedImageUrl(secureImgUrl)}
           />
         ) : (
           <div className="text-sm text-gray-400">
-            No preview available
+            {secureImgUrl ? "Preview unavailable" : "No preview available"}
           </div>
         )}
       </div>
