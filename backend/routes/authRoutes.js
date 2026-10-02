@@ -3,6 +3,7 @@ import {
   registerUser,
   loginUser,
   getUserProfile,
+  updateProfileImage,
 } from "../Controller/authController.js";
 import protect from "../Middlewares/authMiddleware.js";
 import upload from "../Middlewares/uploadMiddleware.js";
@@ -14,6 +15,7 @@ const router = express.Router();
 router.post("/register", registerUser);
 router.post("/login", loginUser);
 router.get("/profile", protect, getUserProfile);
+router.put("/profile-image", protect, upload.single("image"), updateProfileImage);
 
 // Upload profile image
 router.post("/upload-image", upload.single("image"), async (req, res) => {
