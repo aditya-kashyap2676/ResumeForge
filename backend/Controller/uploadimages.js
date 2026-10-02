@@ -1,11 +1,8 @@
 import fs from "fs";
 import path from "path";
-import { fileURLToPath } from "url";
 import Resume from "../Models/Resume.js";
 import upload from "../Middlewares/uploadMiddleware.js";
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+import { getUploadsDir } from "../Config/uploads.js";
 
 const uploadResumeImages = (req, res) => {
   upload.fields([
@@ -31,7 +28,7 @@ const uploadResumeImages = (req, res) => {
         });
       }
 
-      const uploadsFolder = path.join(__dirname, "..", "uploads");
+      const uploadsFolder = getUploadsDir();
 
       // Production/local dono mein current backend host automatically use hoga
       const baseUrl = `${req.protocol}://${req.get("host")}`;

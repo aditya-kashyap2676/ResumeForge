@@ -4,19 +4,16 @@ import cors from "cors";
 import connectDB from "./Config/db.js";
 import dns from "dns";
 import authRoutes from "./routes/authRoutes.js";
-import path from "path";
-import { fileURLToPath } from "url";
 import resumeRoutes from "./routes/resumeRoutes.js";
+import { ensureUploadsDir, getUploadsDir } from "./Config/uploads.js";
 
 dns.setServers(["8.8.8.8", "8.8.4.4"]);
 
 dotenv.config();
+ensureUploadsDir();
 
 const app = express();
 app.set("trust proxy", 1);
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
 
 // CORS
 app.use(cors({
@@ -36,7 +33,7 @@ app.use("/api/auth", authRoutes);
 app.use("/api/resume", resumeRoutes);
 
 // Uploads folder
-app.use("/uploads", express.static(path.join(__dirname, "uploads"), {
+app.use("/uploads", express.static(getUploadsDir(), {
   setHeaders: (res) => {
     res.set(
       "Access-Control-Allow-Origin",
