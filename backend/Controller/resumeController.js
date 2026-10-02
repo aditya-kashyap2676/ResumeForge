@@ -1,10 +1,7 @@
 import fs from "node:fs"
 import path from "node:path"
-import { fileURLToPath } from "node:url"
 import Resume from "../Models/Resume.js"
-
-const __filename = fileURLToPath(import.meta.url)
-const __dirname = path.dirname(__filename)
+import { getUploadsDir } from "../Config/uploads.js"
 
 //@desc Create a new Resume
 //@route POST/api/resumes
@@ -212,7 +209,7 @@ const deleteResume = async (req, res) => {
             })
         }
        //Delete ThumbnailLink and profilePreviewUrl images from uploads folder
-        const uploadFolder = path.join(__dirname, "..", "uploads")
+        const uploadFolder = getUploadsDir()
         if (resumes.thumbnailLink) {
             const oldThumbnail = path.join(
                 uploadFolder,
