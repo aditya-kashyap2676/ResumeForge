@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { getLightColorFromImage } from "../../Utils/helper";
+import { getLightColorFromImage, normalizeImageUrl } from "../../Utils/helper";
 
 const ResumeSummaryCard = ({
   imgUrl,
@@ -8,10 +8,11 @@ const ResumeSummaryCard = ({
   onSelect,
 }) => {
   const [bgColor, setBgColor] = useState("#ffffff");
+  const secureImgUrl = normalizeImageUrl(imgUrl);
 
   useEffect(() => {
-    if (imgUrl) {
-      getLightColorFromImage(imgUrl)
+    if (secureImgUrl) {
+      getLightColorFromImage(secureImgUrl)
         .then((color) => {
           setBgColor(color);
         })
@@ -21,7 +22,7 @@ const ResumeSummaryCard = ({
     } else {
       setBgColor("#ffffff");
     }
-  }, [imgUrl]);
+  }, [secureImgUrl]);
 
   return (
     <div
@@ -32,9 +33,9 @@ const ResumeSummaryCard = ({
         className="w-full flex-1 min-h-0 p-4 flex items-center justify-center overflow-hidden"
         style={{ backgroundColor: bgColor }}
       >
-        {imgUrl ? (
+        {secureImgUrl ? (
           <img
-            src={imgUrl}
+            src={secureImgUrl}
             alt={title || "Resume"}
             className="w-full h-full object-contain"
           />

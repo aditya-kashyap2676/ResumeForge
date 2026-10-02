@@ -1,5 +1,6 @@
 import React, { useRef, useState } from "react";
 import { LuUser, LuUpload, LuTrash } from "react-icons/lu";
+import { normalizeImageUrl } from "../../Utils/helper";
 
 const Profilephotoselecter = ({
   image,
@@ -44,8 +45,8 @@ const Profilephotoselecter = ({
 
   const imageSrc =
     previewUrl ||
-    (typeof preview === "string" ? preview : null) ||
-    (typeof image === "string" ? image : null);
+    normalizeImageUrl(typeof preview === "string" ? preview : null) ||
+    normalizeImageUrl(typeof image === "string" ? image : null);
 
   return (
     <div className="flex justify-center mb-6">
