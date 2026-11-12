@@ -31,3 +31,19 @@
   @apply flex items-center gap-2 text-[13px] font-medium text-white bg-gradient-to-r from-purple-500 to-purple-700 hover:from-purple-600 hover:to-purple-800 rounded px-3 py-1.5 cursor-pointer;
 }
 }
+html,
+body,
+#root {
+  width: 100%;
+  min-height: 100%;
+  margin: 0;
+}
+
+html {
+  overflow-y: auto;
+  scrollbar-gutter: stable;
+}
+
+body {
+  overflow-x: clip;
+}

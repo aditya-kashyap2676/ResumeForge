@@ -13,7 +13,7 @@ const Landingpage = () => {
   const [currentpage, setCurrentpage] = useState("login");
 
   return (
-    <div className="w-full min-h-screen bg-white overflow-x-hidden flex flex-col justify-between">
+<div className="w-full min-h-screen bg-white overflow-x-clip flex flex-col">
       {/* Main Content Area */}
       <div className="w-full">
         <Header setOpenAuthmodal={setOpenAuthmodal} />
