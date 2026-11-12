@@ -3,6 +3,7 @@ import React, { useContext } from "react";
 import { motion } from "framer-motion";
 import { UserContext } from "../../context/useContext";
 import { useNavigate } from "react-router-dom";
+import HeroImg from "../../assets/heroImg.png";
 
 const Hero = ({ setOpenAuthmodal }) => {
   const { user } = useContext(UserContext);
@@ -30,6 +31,7 @@ const Hero = ({ setOpenAuthmodal }) => {
       <div className="max-w-7xl mx-auto px-6 md:px-10 py-16">
         <div className="flex flex-col md:flex-row items-center gap-10">
 
+          {/* Left Content */}
           <motion.div
             initial="hidden"
             animate="visible"
@@ -73,38 +75,18 @@ const Hero = ({ setOpenAuthmodal }) => {
             </motion.button>
           </motion.div>
 
+          {/* Right Side Image */}
           <motion.div
             initial={{ opacity: 0, x: 25 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.5, ease: "easeOut" }}
-            className="w-full md:w-1/2 flex justify-center"
+            className="w-full md:w-1/2 flex justify-center items-center"
           >
-            <div className="bg-gradient-to-br from-purple-100 via-blue-50 to-green-100 rounded-3xl p-10 shadow-xl w-full max-w-md">
-
-              <div className="bg-white rounded-xl shadow-lg p-6">
-
-                <div className="flex items-center gap-4 mb-6">
-                  <div className="w-14 h-14 rounded-full bg-blue-100" />
-
-                  <div>
-                    <div className="h-4 w-32 bg-gray-200 rounded mb-2" />
-                    <div className="h-3 w-24 bg-gray-100 rounded" />
-                  </div>
-                </div>
-
-                <div className="space-y-3">
-                  <div className="h-3 bg-gray-200 rounded w-full" />
-                  <div className="h-3 bg-gray-200 rounded w-5/6" />
-                  <div className="h-3 bg-gray-200 rounded w-4/6" />
-                </div>
-
-                <div className="mt-6 space-y-3">
-                  <div className="h-3 bg-blue-100 rounded w-full" />
-                  <div className="h-3 bg-blue-100 rounded w-4/5" />
-                </div>
-
-              </div>
-            </div>
+            <img
+              src={HeroImg}
+              alt="Resume Builder Illustration"
+              className="w-full max-w-[480px] h-auto object-contain"
+            />
           </motion.div>
 
         </div>
