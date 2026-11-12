@@ -3,7 +3,7 @@ import React, { useContext } from "react";
 import { motion } from "framer-motion";
 import { UserContext } from "../../context/useContext";
 import { useNavigate } from "react-router-dom";
-import HeroImg from "../../assets/heroImg.png";
+import HeroImg from "../../assets/HeroImg.png";
 
 const Hero = ({ setOpenAuthmodal }) => {
   const { user } = useContext(UserContext);
