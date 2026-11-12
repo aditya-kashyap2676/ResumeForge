@@ -12,7 +12,7 @@ const Header = ({ setOpenAuthmodal }) => {
       initial={{ opacity: 0, y: -15 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.45, ease: "easeOut" }}
-      className="flex justify-between px-10 items-center mb-16 mt-4"
+      className="flex justify-between px-10 items-center mb-1 mt-4"
     >
       <motion.div
         whileHover={{ scale: 1.02 }}
